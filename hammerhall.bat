@@ -25,7 +25,7 @@ REM  Внутри блоков переменные читаются тольк�
 REM ============================================================
 setlocal EnableDelayedExpansion
 
-set VERSION=0.1.1
+set VERSION=0.1.2
 set REPO=hammerhall/hammerhall-cli
 
 set ROOT=%~dp0
