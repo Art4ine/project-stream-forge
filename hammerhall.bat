@@ -34,7 +34,7 @@ REM  прежняя запоминается и возвращается пос�
 REM ============================================================
 setlocal EnableDelayedExpansion
 
-set VERSION=0.1.3
+set VERSION=0.1.4
 set REPO=hammerhall/hammerhall-cli
 
 set ROOT=%~dp0
