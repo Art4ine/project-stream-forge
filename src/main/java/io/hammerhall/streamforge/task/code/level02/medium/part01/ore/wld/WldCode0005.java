@@ -29,7 +29,9 @@ public class WldCode0005 extends Base {
      * @return список всех городов мира
      */
     public List<City> task(@NonNull Collection<Country> countries) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return countries.stream()
+                .flatMap(country -> country.getCities().stream())
+                .toList();
     }
 
     @Test

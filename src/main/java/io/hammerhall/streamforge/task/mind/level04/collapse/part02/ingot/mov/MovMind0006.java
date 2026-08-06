@@ -27,7 +27,11 @@ public class MovMind0006 extends Base {
      * @return список фильмов, у которых набор жанров строго равен {"Drama", "Comedy"}
      */
     public List<Movie> task(@NonNull Collection<Movie> movies) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .filter(movie -> movie.getGenres().size() == 2 &&
+                        movie.getGenres().getFirst().getName().equals("Drama") &&
+                        movie.getGenres().get(1).getName().equals("Comedy"))
+                .toList();
     }
 
     @Test

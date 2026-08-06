@@ -8,7 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.hammerhall.streamforge.domain.movie.Movie;
 import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,7 +37,13 @@ public class MovCode0024 extends Base {
      * @return список примечательных фильмов без повторов; пустой список, если их нет
      */
     public List<Movie> task(@NonNull Collection<Movie> movies) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return Stream.concat(
+                movies.stream().min(Comparator.comparingInt(Movie::getYear)).stream(),
+                Stream.concat(
+                        movies.stream().max(Comparator.comparingInt(Movie::getYear)).stream(),
+                        movies.stream().max(Comparator.comparingInt(movie -> movie.getGenres().size())).stream()
+                )
+        ).toList();
     }
 
     @Test

@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.hammerhall.streamforge.domain.world.Country;
 import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +27,10 @@ public class WldCode0003 extends Base {
      * @return список названий стран, отсортированный по алфавиту
      */
     public List<String> task(@NonNull Collection<Country> countries) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return countries.stream()
+                .map(Country::getName)
+                .sorted()
+                .toList();
     }
 
     @Test

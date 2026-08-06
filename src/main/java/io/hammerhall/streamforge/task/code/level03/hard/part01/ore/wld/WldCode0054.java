@@ -7,9 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.hammerhall.streamforge.domain.world.City;
 import io.hammerhall.streamforge.domain.world.Country;
 import io.hammerhall.streamforge.task.Base;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,15 @@ public class WldCode0054 extends Base {
      * @return ассоциативный массив «континент → столица с наибольшим населением»
      */
     public Map<String, City> task(@NonNull Collection<Country> countries) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return countries.stream().collect(Collectors.groupingBy(
+                        Country::getContinent,
+                        Collectors.flatMapping(country -> country.getCities().stream()
+                                .filter(city -> city.getId() == country.getCapital()), Collectors.toList())
+                )).entrySet().stream().filter(entry -> !entry.getValue().isEmpty())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> Collections.max(entry.getValue(), Comparator.comparingInt(City::getPopulation))
+                ));
     }
 
     @Test

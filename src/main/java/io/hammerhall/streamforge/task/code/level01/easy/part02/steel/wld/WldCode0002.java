@@ -9,6 +9,8 @@ import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +28,9 @@ public class WldCode0002 extends Base {
      * @return множество уникальных названий континентов
      */
     public Set<String> task(@NonNull Collection<Country> countries) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return countries.stream()
+                .map(Country::getContinent)
+                .collect(Collectors.toSet());
     }
 
     @Test

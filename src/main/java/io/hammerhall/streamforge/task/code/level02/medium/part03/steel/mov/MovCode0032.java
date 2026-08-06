@@ -4,11 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import io.hammerhall.streamforge.domain.movie.Genre;
 import io.hammerhall.streamforge.domain.movie.Movie;
 import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +35,15 @@ public class MovCode0032 extends Base {
      *                                или не найдено ни одного жанра
      */
     public String task(@NonNull Collection<Movie> movies) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .flatMap(movie -> movie.getGenres().stream())
+                .collect(Collectors.groupingBy(
+                        Genre::getName,
+                        Collectors.counting()
+                )).entrySet().stream()
+                .max(Map.Entry.<String, Long>comparingByValue().thenComparing(Map.Entry.comparingByKey()))
+                .orElseThrow(NoSuchElementException::new)
+                .getKey();
     }
 
     @Test

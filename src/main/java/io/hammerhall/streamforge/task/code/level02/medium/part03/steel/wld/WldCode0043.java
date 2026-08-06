@@ -4,9 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.hammerhall.streamforge.domain.world.City;
 import io.hammerhall.streamforge.domain.world.Country;
 import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
 import lombok.NonNull;
@@ -31,7 +33,17 @@ public class WldCode0043 extends Base {
      * упорядоченный по убыванию населения
      */
     public List<CityInfo> task(@NonNull Collection<Country> countries) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return countries.stream()
+                .flatMap(country -> country.getCities().stream()
+                        .map(city -> new CityInfo(
+                                city.getName(),
+                                country.getName(),
+                                country.getContinent(),
+                                city.getPopulation()
+                        ))
+                ).sorted(Comparator.comparingInt(CityInfo::population).reversed())
+                .limit(5)
+                .toList();
     }
 
     /**

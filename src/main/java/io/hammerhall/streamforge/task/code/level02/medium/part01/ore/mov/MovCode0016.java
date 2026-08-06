@@ -9,6 +9,8 @@ import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +32,8 @@ public class MovCode0016 extends Base {
      * с таким количеством жанров
      */
     public Map<Integer, List<Movie>> task(@NonNull Collection<Movie> movies) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .collect(Collectors.groupingBy(movie -> movie.getGenres().size()));
     }
 
     @Test

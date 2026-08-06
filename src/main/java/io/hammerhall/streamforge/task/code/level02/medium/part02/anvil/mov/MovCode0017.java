@@ -4,9 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.hammerhall.streamforge.domain.movie.Genre;
 import io.hammerhall.streamforge.domain.movie.Movie;
 import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +27,11 @@ public class MovCode0017 extends Base {
      * @return список уникальных названий жанров, отсортированный по алфавиту
      */
     public List<String> task(@NonNull Collection<Movie> movies) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .flatMap(movie -> movie.getGenres().stream().map(Genre::getName))
+                .distinct()
+                .sorted()
+                .toList();
     }
 
     @Test

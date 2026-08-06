@@ -25,7 +25,9 @@ public class MovCode0013 extends Base {
      * @return true, если в базе есть хотя бы один фильм указанного жанра, иначе false
      */
     public boolean task(@NonNull Collection<Movie> movies, @NonNull String genreName) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .flatMap(movie -> movie.getGenres().stream())
+                .anyMatch(genre -> genre.getName().equalsIgnoreCase(genreName));
     }
 
     @Test

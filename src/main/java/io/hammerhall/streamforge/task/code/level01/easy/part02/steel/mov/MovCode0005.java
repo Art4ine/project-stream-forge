@@ -27,7 +27,9 @@ public class MovCode0005 extends Base {
      * {@code targetYear}, или {@code Optional.empty()}, если такого фильма нет
      */
     public Optional<Movie> task(@NonNull Collection<Movie> movies, int targetYear) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .filter(movie -> movie.getYear() > targetYear)
+                .findFirst();
     }
 
     @Test

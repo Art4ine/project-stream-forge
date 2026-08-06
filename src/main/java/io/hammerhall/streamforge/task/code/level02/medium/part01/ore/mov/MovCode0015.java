@@ -29,7 +29,10 @@ public class MovCode0015 extends Base {
      * @return список фильмов указанного режиссёра
      */
     public List<Movie> task(@NonNull Collection<Movie> movies, @NonNull String directorName) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .filter(movie -> movie.getDirectors().stream()
+                        .anyMatch(director -> director.getFullName().equalsIgnoreCase(directorName)))
+                .toList();
     }
 
     @Test

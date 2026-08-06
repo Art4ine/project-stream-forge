@@ -3,6 +3,7 @@ package io.hammerhall.streamforge.task.code.level02.medium.part01.ore.wld;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.hammerhall.streamforge.domain.world.City;
 import io.hammerhall.streamforge.domain.world.Country;
 import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
@@ -25,7 +26,10 @@ public class WldCode0009 extends Base {
      * для пустого списка стран — 0
      */
     public long task(@NonNull Collection<Country> countries) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return countries.stream()
+                .flatMap(country -> country.getCities().stream())
+                .mapToLong(City::getPopulation)
+                .sum();
     }
 
     @Test

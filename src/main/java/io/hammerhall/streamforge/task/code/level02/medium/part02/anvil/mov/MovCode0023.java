@@ -8,6 +8,8 @@ import io.hammerhall.streamforge.domain.movie.Movie;
 import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +28,11 @@ public class MovCode0023 extends Base {
      * @return Map, где ключ — год выхода, значение — количество фильмов за этот год
      */
     public Map<Integer, Long> task(@NonNull Collection<Movie> movies) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .collect(Collectors.groupingBy(
+                        Movie::getYear,
+                        Collectors.counting()
+                ));
     }
 
     @Test
