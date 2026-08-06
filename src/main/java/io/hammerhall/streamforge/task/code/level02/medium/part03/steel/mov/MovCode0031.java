@@ -7,9 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.hammerhall.streamforge.domain.movie.Movie;
 import io.hammerhall.streamforge.task.Base;
-import java.util.Collection;
-import java.util.List;
-import java.util.NoSuchElementException;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,14 @@ public class MovCode0031 extends Base {
      * @throws NoSuchElementException если коллекция фильмов пустая
      */
     public YearMovieCount task(@NonNull Collection<Movie> movies) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .collect(Collectors.groupingBy(
+                        Movie::getYear,
+                        Collectors.counting()
+                )).entrySet().stream()
+                .max(Map.Entry.<Integer, Long>comparingByValue().thenComparing(Map.Entry.comparingByKey()))
+                .map(entry -> new YearMovieCount(entry.getKey(), entry.getValue()))
+                .orElseThrow();
     }
 
     /**

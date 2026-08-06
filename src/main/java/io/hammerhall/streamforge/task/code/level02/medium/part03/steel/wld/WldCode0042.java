@@ -6,9 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.hammerhall.streamforge.domain.world.Country;
 import io.hammerhall.streamforge.task.Base;
-import java.util.Collection;
-import java.util.List;
-import java.util.NoSuchElementException;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,14 @@ public class WldCode0042 extends Base {
      * @throws NoSuchElementException если список стран пуст
      */
     public String task(@NonNull Collection<Country> countries) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return countries.stream()
+                .collect(Collectors.groupingBy(
+                        Country::getContinent,
+                        Collectors.summingInt(Country::getPopulation)
+                )).entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .orElseThrow(NoSuchElementException::new)
+                .getKey();
     }
 
     @Test

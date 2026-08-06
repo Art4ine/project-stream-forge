@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,7 +35,12 @@ public class MovCode0021 extends Base {
      * а значение — список фильмов, вышедших в этом десятилетии
      */
     public TreeMap<Integer, List<Movie>> task(@NonNull Collection<Movie> movies) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .collect(Collectors.groupingBy(
+                        movie -> movie.getYear()/10*10,
+                        TreeMap::new,
+                        Collectors.toList()
+                ));
     }
 
     @Test

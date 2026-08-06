@@ -9,6 +9,8 @@ import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
 import java.util.List;
 import java.util.LongSummaryStatistics;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +29,8 @@ public class WldCode0021 extends Base {
      * @return сводная статистика населения: минимум, максимум, среднее, сумма и количество
      */
     public LongSummaryStatistics task(@NonNull Collection<Country> countries) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return countries.stream()
+                .collect(Collectors.summarizingLong(Country::getPopulation));
     }
 
     @Test

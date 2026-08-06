@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.hammerhall.streamforge.domain.movie.Movie;
 import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
@@ -28,7 +29,10 @@ public class MovCode0010 extends Base {
      * @return список названий фильмов в порядке убывания года выхода
      */
     public List<String> task(@NonNull Collection<Movie> movies) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .sorted(Comparator.comparingInt(Movie::getYear))
+                .map(Movie::getTitle)
+                .toList();
     }
 
     @Test

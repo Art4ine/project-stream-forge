@@ -6,11 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.hammerhall.streamforge.domain.movie.Director;
 import io.hammerhall.streamforge.domain.movie.Movie;
 import io.hammerhall.streamforge.task.Base;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +33,13 @@ public class MovCode0022 extends Base {
      * значение — количество его фильмов
      */
     public TreeMap<String, Long> task(@NonNull Collection<Movie> movies) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .flatMap(movie -> movie.getDirectors().stream().map(Director::getFullName))
+                .collect(Collectors.groupingBy(
+                        director -> director,
+                        TreeMap::new,
+                        Collectors.counting()
+                ));
     }
 
     @Test

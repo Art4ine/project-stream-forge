@@ -4,10 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.hammerhall.streamforge.domain.movie.Genre;
 import io.hammerhall.streamforge.domain.movie.Movie;
 import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +31,12 @@ public class MovCode0020 extends Base {
      * этого жанра среди фильмов
      */
     public Map<String, Long> task(@NonNull Collection<Movie> movies) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .flatMap(movie -> movie.getGenres().stream().map(Genre::getName))
+                .collect(Collectors.groupingBy(
+                        genre -> genre,
+                        Collectors.counting()
+                ));
     }
 
     @Test

@@ -26,7 +26,9 @@ public class MovCode0007 extends Base {
      * @return список фильмов, у которых строго больше одного жанра
      */
     public List<Movie> task(@NonNull Collection<Movie> movies) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .filter(movie -> movie.getGenres().size() > 1)
+                .toList();
     }
 
     @Test

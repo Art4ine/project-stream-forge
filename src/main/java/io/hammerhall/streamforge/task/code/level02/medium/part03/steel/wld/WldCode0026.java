@@ -10,6 +10,8 @@ import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +34,14 @@ public class WldCode0026 extends Base {
      * @return список городов-столиц, найденных по идентификатору
      */
     public List<City> task(@NonNull Collection<Country> countries) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return countries.stream() .map(country -> countries.stream()
+                .flatMap(country2 -> country2.getCities().stream())
+                .collect(Collectors.toMap(
+                        City::getId,
+                        city -> city
+                )).get(country.getCapital()))
+                .filter(Objects::nonNull)
+                .toList();
     }
 
     @Test

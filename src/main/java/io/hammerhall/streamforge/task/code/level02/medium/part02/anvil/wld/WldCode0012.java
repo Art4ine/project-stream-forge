@@ -36,7 +36,13 @@ public class WldCode0012 extends Base {
      * @return список стран, удовлетворяющих условию отбора
      */
     public List<Country> task(@NonNull Collection<Country> countries) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return countries.stream()
+                .filter(
+                        country -> country.getPopulation() > 10_000_000 &&
+                                country.getContinent().equalsIgnoreCase("Antarctica") &&
+                                country.getSurfaceArea() > 500_000 || country.getPopulation()/country.getSurfaceArea() > 200
+                )
+                .toList();
     }
 
     @Test

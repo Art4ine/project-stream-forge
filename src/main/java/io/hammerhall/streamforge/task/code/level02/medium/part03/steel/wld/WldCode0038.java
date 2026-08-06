@@ -9,6 +9,8 @@ import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +34,15 @@ public class WldCode0038 extends Base {
      * @return ассоциативный массив «континент → список стран с населением > 50 млн»
      */
     public Map<String, List<Country>> task(@NonNull Collection<Country> countries) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return countries.stream()
+                .collect(Collectors.groupingBy(Country::getContinent))
+                .entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> entry.getValue().stream()
+                                .filter(country -> country.getPopulation() > 50_000_000)
+                                .toList()
+                ));
     }
 
     @Test

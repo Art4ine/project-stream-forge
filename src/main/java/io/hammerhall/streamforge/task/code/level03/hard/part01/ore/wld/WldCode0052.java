@@ -6,10 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.hammerhall.streamforge.domain.world.Country;
 import io.hammerhall.streamforge.task.Base;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+
+import java.util.*;
+import java.util.function.BinaryOperator;
+import java.util.stream.Collectors;
+
 import lombok.NonNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,12 @@ public class WldCode0052 extends Base {
      * @return ассоциативный массив «континент → страна с наибольшим числом городов»
      */
     public Map<String, Country> task(@NonNull Collection<Country> countries) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return countries.stream()
+                .collect(Collectors.toMap(
+                        Country::getContinent,
+                        country -> country,
+                        BinaryOperator.maxBy(Comparator.comparingInt(Country::getPopulation).thenComparing(Country::getName))
+                ));
     }
 
     @Test

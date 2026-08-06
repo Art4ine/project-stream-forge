@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.hammerhall.streamforge.domain.world.City;
 import io.hammerhall.streamforge.domain.world.Country;
 import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
@@ -25,7 +26,10 @@ public class WldCode0014 extends Base {
      * @return список названий столиц
      */
     public List<String> task(@NonNull Collection<Country> countries) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return countries.stream()
+                .flatMap(country -> country.getCities().stream().filter(city -> city.getId() == country.getCapital()))
+                .map(City::getName)
+                .toList();
     }
 
     @Test

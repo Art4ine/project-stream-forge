@@ -29,7 +29,10 @@ public class MovCode0014 extends Base {
      * @return список фильмов указанного жанра
      */
     public List<Movie> task(@NonNull Collection<Movie> movies, @NonNull String genreName) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .filter(movie -> movie.getGenres().stream()
+                        .anyMatch(genre -> genre.getName().equalsIgnoreCase(genreName)))
+                .toList();
     }
 
     @Test

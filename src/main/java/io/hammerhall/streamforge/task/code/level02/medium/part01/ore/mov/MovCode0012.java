@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.hammerhall.streamforge.domain.movie.Movie;
 import io.hammerhall.streamforge.task.Base;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import lombok.NonNull;
@@ -29,7 +30,8 @@ public class MovCode0012 extends Base {
      * если коллекция пуста
      */
     public Optional<Movie> task(@NonNull Collection<Movie> movies) {
-        throw new UnsupportedOperationException("Реализуйте метод");
+        return movies.stream()
+                .max(Comparator.comparingInt(Movie::getYear));
     }
 
     @Test
